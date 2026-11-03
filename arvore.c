@@ -27,6 +27,43 @@ celula *inserir_folha(celula *raiz, int dado) {
   }
 }
 
+celula *remover(celula *raiz, int x) {
+  if (raiz == NULL)
+    return NULL;                      // x não tá na árvore
+
+  if (x < raiz->dado)
+    raiz->esq = remover(raiz->esq, x);
+  else if (x > raiz->dado)
+    raiz->dir = remover(raiz->dir, x);
+  else {                              // achou
+    if (raiz->esq == NULL) {          // caso 1 (inclui folha)
+      celula *p = raiz->dir;
+      free(raiz);
+      return p;
+    }
+    else if (raiz->dir == NULL) {     // caso 2
+      celula *p = raiz->esq;
+      free(raiz);
+      return p;
+    }
+    else {                            // caso 3: dois filhos
+      celula *p = raiz;               // pai do sucessor
+      celula *s = raiz->dir;          // sucessor
+      while (s->esq != NULL) {
+        p = s;
+        s = s->esq;
+      }
+      raiz->dado = s->dado;
+      if (s == p->esq)
+        p->esq = s->dir;
+      else
+        p->dir = s->dir;
+      free(s);
+    }
+  }
+  return raiz;
+}
+
 int n = 0;
 int soma_folha(celula *raiz) {
   if (raiz != NULL) {
