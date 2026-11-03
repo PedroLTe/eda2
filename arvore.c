@@ -27,6 +27,30 @@ celula *inserir_folha(celula *raiz, int dado) {
   }
 }
 
+int n = 0;
+int soma_folha(celula *raiz) {
+  if (raiz != NULL) {
+    soma_folha(raiz->esq);
+    soma_folha(raiz->dir);
+    if (raiz->esq == NULL && raiz->dir == NULL) {
+      n++;
+    }
+  }
+  return n;
+}
+
+int soma_folha_recursao(celula *raiz) {
+  if (raiz == NULL)
+    return 0;
+  if (raiz->esq == NULL && raiz->dir == NULL) {
+    return 1;
+  }
+  int esq = soma_folha_recursao(raiz->esq);
+  int dir = soma_folha_recursao(raiz->dir);
+
+  return esq + dir;
+}
+
 void preordem(celula *raiz) {
   if (raiz != NULL) {
     printf("%d ", raiz->dado);
@@ -50,6 +74,19 @@ void posordem(celula *raiz) {
     printf("%d ", raiz->dado);
   }
 }
+/* depois implementar fila/pilha e fazer iterativamente as funcoes de pos/em/pre ordem q seria mais ou menos assim:
+void largura (celula *raiz) {
+  fila *f = cria_fila(f);
+  enfileira(f, raiz);
+  while (!fila_vazia(f)) {
+    raiz = desempilha(f);
+    printf("%d", raiz -> dado);
+    if (raiz ->esq != NULL) enfileira (f, raiz->esq);
+    if (raiz ->dir != NULL) enfileira (f, raiz->dir);
+  }
+  destroi_fila(f);
+}
+*/
 
 int main(int argc, char *argv[])
 {
@@ -68,6 +105,9 @@ int main(int argc, char *argv[])
   printf("\nposordem:\n");
   posordem(arvre);
   printf("\n");
+  printf("folhas: %d\n", soma_folha(arvre));
+  printf("\n");
+  printf("folhas recursao: %d\n", soma_folha_recursao(arvre));
   /*
   printf("dado: %d\n", arvre->dado);
   printf("dado esq: %d\n", arvre->esq->dado);
