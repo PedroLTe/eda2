@@ -27,6 +27,19 @@ celula *inserir_folha(celula *raiz, int dado) {
   }
 }
 
+int altura(celula *raiz) {
+  if (raiz == NULL) {
+    return -1;
+  }
+
+  int he = altura(raiz->esq);
+  int hd = altura(raiz->dir);
+
+  if (he > hd) return he+1;
+    else return hd+1;
+  return -1;
+}
+
 celula *remover(celula *raiz, int x) {
   if (raiz == NULL)
     return NULL;                      // x não tá na árvore
@@ -145,6 +158,7 @@ int main(int argc, char *argv[])
   printf("folhas: %d\n", soma_folha(arvre));
   printf("\n");
   printf("folhas recursao: %d\n", soma_folha_recursao(arvre));
+  printf("altura : %d\n", altura(arvre));
   /*
   printf("dado: %d\n", arvre->dado);
   printf("dado esq: %d\n", arvre->esq->dado);
